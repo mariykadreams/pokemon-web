@@ -1,0 +1,53 @@
+<main>
+    <section id="game-menu" class="home-box" *ngIf="!isRunning && !gameEnded">
+        <h1>Quiz Instructions</h1>
+
+        <p><b>Objective:</b> Guess the Pokémon hidden in the silhouette before time runs out!</p>
+
+        <ul>
+            <li><b>Silhouette:</b> A dark <a href="https://bulbapedia.bulbagarden.net/wiki/Who%27s_That_Pok%C3%A9mon%3F" target="_blank" class="external-link">Pokémon outline</a> is shown—no colors or details.</li>
+            <li><b>Guessing:</b> Select the Pokémon's name.</li>
+            <li><b>Scoring:</b> Correct answers give 1 point.</li>
+            <li><b>Timer:</b> You have 60 seconds to answer as many questions as possible.</li>
+            <li><b>Goal:</b> Guess as many Pokémon as possible before time runs out!</li>
+        </ul>
+
+        <p><b>Tips:</b></p>
+        <ul>
+            <li>Focus on the shape—many Pokémon have unique outlines.</li>
+            <li>Types and evolutions can help you narrow down possibilities.</li>
+            <li>The more you play, the faster you'll recognize them!</li>
+        </ul>
+
+        <div class="home-links" id="game-links">
+            <button id="start-quiz-button" class="menu-btn" (click)="startQuiz()">Start Quiz</button>
+        </div>
+    </section>
+
+    <section id="quiz-area" aria-label="Quiz area">
+        <div id="timer-and-score" [class.active]="isRunning">
+            <div id="timer" [style.color]="timerColor">Time: {{ timeRemaining }}s</div>
+            <div id="score">Score: {{ score }}</div>
+            <div id="question-counter">Question {{ currentQuestion + 1 }}/{{ QUESTIONS_PER_ROUND }}</div>
+        </div>
+
+        <section id="quiz-container" class="quiz-box" *ngIf="isRunning">
+            <img [id]="'pokemon-image'" [src]="currentQuestionData?.silhouette" alt="Mystery Pokémon">
+            <h1>Who's that Pokémon?</h1>
+            <div class="options">
+                <button *ngFor="let option of shuffledOptions" 
+                        (click)="checkAnswer(option)" 
+                        [disabled]="userAnswered">
+                    {{ option }}
+                </button>
+            </div>
+            <div class="result" [style.color]="resultColor" id="result">{{ resultMessage }}</div>
+            <button id="next-question-button" class="menu-btn" *ngIf="userAnswered && currentQuestion < QUESTIONS_PER_ROUND - 1" (click)="nextQuestion()">Next Question</button>
+        </section>
+
+        <section id="game-ended" class="home-box" *ngIf="gameEnded">
+            <p id="final-score-message">{{ finalScoreMessage }}</p>
+            <button id="back-to-menu-button" class="menu-btn" (click)="backToMenu()">Back</button>
+        </section>
+    </section>
+</main>

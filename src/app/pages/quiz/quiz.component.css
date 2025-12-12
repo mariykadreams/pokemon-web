@@ -1,0 +1,135 @@
+.menu-btn {
+    display: block;
+    width: 100%;
+    height: 44px;
+    background: #ffd735;
+    color: #444;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.quiz-box {
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: center;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.quiz-box img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+.options button {
+    display: block;
+    width: 100%;
+    height: 44px;
+    background: #ffd735;
+    color: #444;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.options button:hover:not(:disabled) {
+    background: #f5b700;
+}
+
+.options button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#timer-and-score {
+    font-family: 'Pokemon Solid', sans-serif;
+    letter-spacing: 3px;
+    width: 120px;
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 75px;
+    z-index: 2000;
+}
+
+#timer-and-score.active {
+    display: block;
+}
+
+#timer-and-score div {
+    line-height: 1.8;
+    color: #f5b700;
+    text-shadow: 1px 1px #444;
+    font-size: 14px;
+}
+
+#timer-and-score #timer {
+    font-weight: bold;
+    color: #f5b700;
+}
+
+#timer-and-score #timer[style*="red"] {
+    color: red !important;
+}
+
+#timer-and-score #score {
+    font-weight: bold;
+}
+
+#timer-and-score #question-counter {
+    font-size: 12px;
+    color: #666;
+    text-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .quiz-box {
+        max-width: none;
+        margin: 40px 0;
+        border-radius: 0;
+    }
+
+    #timer-and-score {
+        width: 100px;
+        right: 10px;
+        top: 80px;
+    }
+
+    #timer-and-score div {
+        font-size: 12px;
+    }
+}
+
+.home-box ul {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    list-style: none;
+    padding-left: 0;   
+    margin-left: 0;
+}
+

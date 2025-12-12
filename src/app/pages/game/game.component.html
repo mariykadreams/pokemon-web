@@ -1,0 +1,31 @@
+<main>
+    <section id="game-menu" class="home-box" #gameMenu>
+        <h1>Find That Pokémon</h1>
+        <div class="game-instructions" #gameInstructions>
+            <h3>Welcome to Find That Pokémon!</h3>
+            <p>
+                Your goal is to find the hidden pokémon among the trainers. <br>
+                You have 30 seconds, and for every pokémon that you find, you win one point. 
+            </p>
+        </div>
+        <div class="home-links" id="game-links" #gameLinks>
+            <button id="start-game-button" class="menu-btn" (click)="startGame()">Start Game</button>
+        </div>
+        <div id="game-ended" #gameEnded>
+            <p id="final-score-message" #finalScoreMessage></p>
+            <p>To learn more about pokémon, <a href="https://www.pokemon.com/us/pokedex" target="_blank" class="external-link">check out</a>.</p>
+            <button id="back-to-menu-button" class="menu-btn" (click)="showGameMenu()">Back</button>
+        </div>
+    </section>
+
+    <section id="game-area" aria-label="Game area">
+        <div id="timer-and-score">
+            <div id="timer" #timerDiv>Time: 0</div>
+            <div id="score" #scoreDiv>Score: 0</div>
+        </div>
+
+        <div id="game" #gameContainer></div>
+
+        <img src="assets/images/pokeball-opening.gif" id="pokeball-opening" #pokeballOpening alt="">
+    </section>
+</main>
