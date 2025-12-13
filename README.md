@@ -24,6 +24,25 @@ This is an Angular web application converted from a static HTML/CSS Pokemon webs
 npm install
 ```
 
+### Environment Setup
+
+1. Copy the example environment file:
+   ```bash
+   cp src/environments/environment.example.ts src/environments/environment.ts
+   cp src/environments/environment.example.ts src/environments/environment.prod.ts
+   ```
+
+2. Edit `src/environments/environment.ts` and `src/environments/environment.prod.ts` with your Firebase credentials:
+   - `apiKey`: Your Firebase API key
+   - `authDomain`: Your Firebase auth domain
+   - `projectId`: Your Firebase project ID
+   - `storageBucket`: Your Firebase storage bucket
+   - `messagingSenderId`: Your messaging sender ID
+   - `appId`: Your Firebase app ID
+   - `measurementId`: Your Google Analytics measurement ID (optional)
+
+**Important**: The environment files (`environment.ts` and `environment.prod.ts`) are excluded from version control to protect your API keys. Never commit these files to GitHub.
+
 ### Running the Application
 
 ```bash
