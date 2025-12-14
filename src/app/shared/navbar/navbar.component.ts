@@ -26,7 +26,7 @@ export class NavbarComponent {
     document.body.classList.remove('sidebar-open');
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     if (window.innerWidth > 600) {
       this.closeMenu();
