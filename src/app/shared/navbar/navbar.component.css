@@ -26,6 +26,25 @@
     color:  #ffd735;
 }
 
+.admin-link {
+    color: #ff9800 !important;
+    font-weight: bold;
+}
+
+.admin-link.active {
+    color: #ff9800 !important;
+    border-bottom: 2px solid #ff9800;
+}
+
+.logout-link {
+    color: #666 !important;
+    cursor: pointer;
+}
+
+.logout-link:hover {
+    color: #d32f2f !important;
+}
+
 .burger {
     width: 30px;
     height: 30px;

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 
 interface QuizQuestion {
   pokemon: string;
@@ -42,10 +43,19 @@ export class QuizComponent implements OnInit, OnDestroy {
   currentQuestionData: QuizQuestion | null = null;
   shuffledOptions: string[] = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService
+  ) {}
 
-  ngOnInit(): void {
-    this.currentUsername = this.authService.getLoggedInUser();
+  async ngOnInit(): Promise<void> {
+    if (this.authService.isLoggedIn()) {
+      const userId = this.authService.getCurrentUserId();
+      if (userId) {
+        const userData = await this.usersService.getUserById(userId);
+        this.currentUsername = userData?.name || this.authService.getCurrentUserEmail();
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -90,7 +100,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.resultMessage = '';
   }
 
-  checkAnswer(selected: string): void {
+  async checkAnswer(selected: string): Promise<void> {
     if (this.userAnswered || !this.currentQuestionData) return;
     
     this.userAnswered = true;
@@ -108,6 +118,13 @@ export class QuizComponent implements OnInit, OnDestroy {
       this.resultMessage = `Wrong! It was ${correct}.`;
       this.resultColor = 'red';
     }
+
+    // If this is the last question, end the quiz after a short delay
+    if (this.currentQuestion >= this.QUESTIONS_PER_ROUND - 1) {
+      setTimeout(() => {
+        this.endQuiz();
+      }, 1500); // Wait 1.5 seconds to show the result
+    }
   }
 
   nextQuestion(): void {
@@ -115,14 +132,42 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.loadQuestion();
   }
 
-  endQuiz(): void {
+  async endQuiz(): Promise<void> {
+    // Prevent multiple calls
+    if (this.gameEnded) return;
+
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
+      this.timerInterval = null;
     }
     this.isRunning = false;
     this.gameEnded = true;
     const bonusText = this.currentUsername ? ' (includes login bonus!)' : '';
     this.finalScoreMessage = `Quiz Complete! Your Score: ${this.score}${bonusText}`;
+    
+    // Save score to Firestore if user is logged in
+    if (this.authService.isLoggedIn()) {
+      const userId = this.authService.getCurrentUserId();
+      if (userId) {
+        try {
+          // Get current user data
+          const userData = await this.usersService.getUserById(userId);
+          const currentQuizScore = userData?.quiz_score || 0;
+          
+          // Save the score - update only if new score is higher (keep best score)
+          if (this.score > currentQuizScore) {
+            await this.usersService.updateUser(userId, { quiz_score: this.score });
+            console.log(`New best quiz score saved: ${this.score} points for user ${userId}`);
+          } else {
+            console.log(`Quiz score ${this.score} is not higher than current best ${currentQuizScore}, keeping best score`);
+          }
+        } catch (error) {
+          console.error('Error saving quiz score:', error);
+        }
+      }
+    } else {
+      console.log('User not logged in, score not saved:', this.score);
+    }
   }
 
   backToMenu(): void {

@@ -17,6 +17,8 @@
         <a routerLink="/game" routerLinkActive="active" (click)="closeMenu()">Find</a>
         <a routerLink="/leaderboards" routerLinkActive="active" (click)="closeMenu()">Leaderboard</a>
         <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
-        <a routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a>
+        <a *ngIf="isAdmin" routerLink="/admin" routerLinkActive="active" (click)="closeMenu()" class="admin-link">Admin</a>
+        <a *ngIf="!isLoggedIn" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a>
+        <a *ngIf="isLoggedIn" (click)="logout(); closeMenu()" class="logout-link">Logout</a>
     </nav>
 </header>

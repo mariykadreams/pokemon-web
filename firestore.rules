@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection rules
+    match /users/{userId} {
+      // Allow authenticated users to read any user document (for leaderboards, etc.)
+      allow read: if request.auth != null;
+      
+      // Allow users to create their own document when registering
+      // Document ID must match the authenticated user's UID
+      allow create: if request.auth != null 
+                   && request.auth.uid == userId
+                   && request.resource.data.name is string
+                   && request.resource.data.email is string
+                   && request.resource.data.admin is bool;
+      
+      // Allow users to update their own document
+      allow update: if request.auth != null 
+                   && request.auth.uid == userId;
+      
+      // Allow admins to update any user document
+      // Check if the current user is an admin
+      allow update: if request.auth != null 
+                   && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+                   && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true;
+    }
+    
+    // Allow reading pokemon collection (if you have one)
+    match /pokemon/{document=**} {
+      allow read: if request.auth != null;
+    }
+  }
+}
+

@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th>Username</th>
+                    <th>Name</th>
                     <th>Find Score</th>
                     <th>Quiz Score</th>
                 </tr>
@@ -13,9 +13,14 @@
             <tbody id="leaderboard-body">
                 <tr *ngFor="let user of users; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ user.username }}</td>
+                    <td>{{ user.name }}</td>
                     <td>{{ user.finding_game_score || 0 }}</td>
                     <td>{{ user.quiz_score || 0 }}</td>
+                </tr>
+                <tr *ngIf="users.length === 0">
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #999;">
+                        No quiz scores yet. Play the quiz to appear on the leaderboard!
+                    </td>
                 </tr>
             </tbody>
         </table>

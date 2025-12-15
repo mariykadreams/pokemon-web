@@ -21,7 +21,18 @@ export class LeaderboardsComponent implements OnInit {
   loadLeaderboard(): void {
     this.usersService.getUsers().subscribe({
       next: (users) => {
-        this.users = users.sort((a, b) => (b.finding_game_score || 0) - (a.finding_game_score || 0));
+        // Filter out users without names (they might be incomplete accounts)
+        // Sort by quiz_score descending, then by name
+        this.users = users
+          .filter(user => user.name && user.name.trim() !== '')
+          .sort((a, b) => {
+            const scoreA = a.quiz_score || 0;
+            const scoreB = b.quiz_score || 0;
+            if (scoreB !== scoreA) {
+              return scoreB - scoreA;
+            }
+            return (a.name || '').localeCompare(b.name || '');
+          });
       },
       error: (error) => {
         console.error('Error loading leaderboard:', error);

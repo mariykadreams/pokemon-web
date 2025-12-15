@@ -1,74 +1,77 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UsersService } from '../../services/users.service';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  username = '';
+  email = '';
   password = '';
   message = '';
   messageColor = 'inherit';
+  isLoading = false;
 
   constructor(
-    private usersService: UsersService,
     private authService: AuthService,
+    private usersService: UsersService,
     private router: Router
   ) {}
 
-  isPasswordFormatValid(password: string): boolean {
-    if (password.length < 8) return false;
-    const capitalCount = (password.match(/[A-Z]/g) || []).length;
-    if (capitalCount < 2) return false;
-    if (!/\d/.test(password)) return false;
-    if (!/[^A-Za-z0-9\s]/.test(password)) return false;
-    return true;
+  isEmailValid(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 
-  handleLogin(): void {
+  async handleLogin(): Promise<void> {
     this.message = '';
     this.messageColor = 'inherit';
 
-    if (!this.isPasswordFormatValid(this.password)) {
-      this.message = '❌ Invalid password format. Check requirements: min 8 chars, 2 capitals, 1 digit, 1 special character.';
+    if (!this.isEmailValid(this.email)) {
+      this.message = '❌ Please enter a valid email address.';
       this.messageColor = 'red';
       return;
     }
 
-    this.usersService.getUsers().subscribe({
-      next: (users) => {
-        const user = users.find(
-          u => u.username === this.username && u.password === this.password
-        );
+    if (!this.password) {
+      this.message = '❌ Please enter your password.';
+      this.messageColor = 'red';
+      return;
+    }
 
-        if (user) {
-          this.message = '✅ Login successful! Welcome, ' + this.username + '!';
-          this.messageColor = 'green';
-          this.authService.setLoggedInUser(this.username);
-          this.username = '';
-          this.password = '';
-          
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 500);
-        } else {
-          this.message = '❌ Invalid username or password.';
-          this.messageColor = 'red';
-        }
-      },
-      error: (error) => {
-        console.error('Error fetching user data:', error);
-        this.message = '❌ Failed to load user data. Please check the console.';
-        this.messageColor = 'red';
-      }
-    });
+    this.isLoading = true;
+
+    try {
+      // Login with Firebase Auth
+      const user = await this.authService.login(this.email, this.password);
+      
+      // Get user data from Firestore to display name
+      const userData = await this.usersService.getUserById(user.uid);
+      const userName = userData?.name || this.email;
+      
+      this.message = '✅ Login successful! Welcome, ' + userName + '!';
+      this.messageColor = 'green';
+      
+      // Clear form
+      this.email = '';
+      this.password = '';
+      
+      // Navigate to home page after a short delay
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 500);
+    } catch (error: any) {
+      this.message = '❌ ' + error.message;
+      this.messageColor = 'red';
+    } finally {
+      this.isLoading = false;
+    }
   }
 }

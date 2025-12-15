@@ -1,3 +1,4 @@
+.home-box input[type="text"],
 .home-box input[type="email"],
 .home-box input[type="password"] {
     width: 100%;
@@ -11,6 +12,7 @@
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+.home-box input[type="text"]:focus,
 .home-box input[type="email"]:focus,
 .home-box input[type="password"]:focus {
     border-color: #ffd735; 
@@ -32,18 +34,25 @@
     cursor: not-allowed;
 }
 
-.register-link {
+.password-requirements {
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.login-link {
     margin-top: 15px;
     text-align: center;
 }
 
-.register-link a {
+.login-link a {
     color: #ffd735;
     text-decoration: none;
     font-weight: bold;
 }
 
-.register-link a:hover {
+.login-link a:hover {
     text-decoration: underline;
 }
 

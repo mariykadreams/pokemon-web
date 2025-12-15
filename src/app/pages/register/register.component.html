@@ -1,0 +1,52 @@
+<main class="home-box">
+    <h1>Register</h1>
+    <form id="register-form" (ngSubmit)="handleRegister()">
+        <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="name" 
+            name="name"
+            placeholder="Full Name" 
+            required
+            [disabled]="isLoading">
+        <input 
+            type="email" 
+            id="email" 
+            [(ngModel)]="email" 
+            name="email"
+            placeholder="Email" 
+            required
+            [disabled]="isLoading">
+        <input 
+            type="password" 
+            id="password" 
+            [(ngModel)]="password" 
+            name="password"
+            placeholder="Password" 
+            required
+            [disabled]="isLoading">
+        <input 
+            type="password" 
+            id="confirmPassword" 
+            [(ngModel)]="confirmPassword" 
+            name="confirmPassword"
+            placeholder="Confirm Password" 
+            required
+            [disabled]="isLoading">
+        <button 
+            type="submit" 
+            id="registerButton" 
+            class="btn"
+            [disabled]="isLoading">
+            {{ isLoading ? 'Registering...' : 'Register' }}
+        </button>
+    </form>
+    <p id="message" [style.color]="messageColor">{{ message }}</p>
+    <p class="password-requirements">
+        Password requirements: Minimum 8 characters, 2 capital letters, 1 digit, 1 special character
+    </p>
+    <p class="login-link">
+        Already have an account? <a routerLink="/login">Login here</a>
+    </p>
+</main>
+
