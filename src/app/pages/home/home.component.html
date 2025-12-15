@@ -1,18 +1,67 @@
-<main class="home-box">
-    <div class="image-placeholder">
-        <img src="assets/images/trainers_and_pokemons.png" alt="">
-    </div>
-    <h1>Welcome</h1>
-    <p>
-        Select a feature to start. For more information about Pokémon, 
-        you can visit <a href="https://www.pokemon.com" target="_blank" class="external-link">the official Pokémon website</a>.
-    </p>
+<main class="home-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-image">
+            <img src="assets/images/trainers_and_pokemons.png" alt="Pokémon Trainers and Pokémon">
+        </div>
+        <div class="hero-content">
+            <h1>Welcome to Pokémon Learning Hub</h1>
+            <p class="hero-description">
+                Discover and learn more about the amazing world of Pokémon! This website offers
+                fun and interactive ways to expand your Pokémon knowledge through exciting games
+                and challenges.
+            </p>
+        </div>
+    </section>
 
-    <nav class="home-links">
-        <a routerLink="/quiz" class="btn">Quiz</a>
-        <a routerLink="/game" class="btn">Find That Pokémon</a>
-        <a routerLink="/leaderboards" class="btn">Leaderboard</a>
-        <a routerLink="/about" class="btn">About</a>
-        <a routerLink="/login" class="btn">Login</a>
-    </nav>
+    <section class="learning-section">
+        <h2>Learn About Pokémon Through Interactive Games</h2>
+        <div class="learning-cards">
+            <div class="learning-card">
+                <div class="card-image">
+                    <img src="assets/images/quiz/pikachu_who_1.png" alt="Quiz Game">
+                </div>
+                <div class="card-content">
+                    <h3>Quiz Game</h3>
+                    <p>
+                        Test your knowledge by guessing Pokémon from their silhouettes!
+                        Challenge yourself to identify Pokémon quickly and accurately.
+                        Perfect your recognition skills while having fun!
+                    </p>
+                    <a routerLink="/quiz" class="card-btn">Play Quiz</a>
+                </div>
+            </div>
+
+            <div class="learning-card">
+                <div class="card-image">
+                    <img src="assets/images/search.jpg" alt="Find Game">
+                </div>
+                <div class="card-content">
+                    <h3>Find That Pokémon</h3>
+                    <p>
+                        Spot hidden Pokémon among trainers in this fast-paced game!
+                        Sharpen your observation skills and learn to quickly identify
+                        different Pokémon in various scenarios.
+                    </p>
+                    <a routerLink="/game" class="card-btn">Play Find Game</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Navigation Section -->
+    <section class="navigation-section">
+        <h2>Explore More</h2>
+        <nav class="home-links">
+            <a routerLink="/quiz" class="btn">Quiz</a>
+            <a routerLink="/game" class="btn">Find That Pokémon</a>
+            <a routerLink="/leaderboards" class="btn">Leaderboard</a>
+            <a routerLink="/about" class="btn">About</a>
+            <a routerLink="/login" class="btn">Login</a>
+        </nav>
+        <p class="footer-note">
+            For more information about Pokémon, visit
+            <a href="https://www.pokemon.com" target="_blank" class="external-link">the official Pokémon website</a>.
+        </p>
+    </section>
 </main>
