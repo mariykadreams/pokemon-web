@@ -44,20 +44,22 @@
 }
 
 .add-btn {
-    background-color: #ff9800;
-    color: white;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 12px;
+    height: 44px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
     white-space: nowrap;
+    min-width: 280px;
 }
 
 .add-btn:hover {
-    background-color: #f57c00;
+    background: #f5b700;
 }
 
 .message {
@@ -153,35 +155,37 @@
 }
 
 .submit-btn {
-    background-color: #ff9800;
-    color: white;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 12px 32px;
-    border-radius: 8px;
+    padding: 12px;
+    height: 44px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .submit-btn:hover {
-    background-color: #f57c00;
+    background: #f5b700;
 }
 
 .cancel-btn {
-    background-color: #999;
-    color: white;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 12px 32px;
-    border-radius: 8px;
+    padding: 12px;
+    height: 44px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .cancel-btn:hover {
-    background-color: #777;
+    background: #f5b700;
 }
 
 /* Pokemon Grid */
@@ -279,34 +283,38 @@
 
 .edit-btn {
     flex: 1;
-    background-color: #ffd735;
-    color: #333;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 8px 16px;
+    padding: 12px;
+    height: 44px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .edit-btn:hover {
-    background-color: #f5b700;
+    background: #f5b700;
 }
 
 .delete-btn {
     flex: 1;
-    background-color: #f5576c;
-    color: white;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 8px 16px;
+    padding: 12px;
+    height: 44px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .delete-btn:hover {
-    background-color: #d32f2f;
+    background: #f5b700;
 }
 
 .no-pokemon {
@@ -319,15 +327,21 @@
 
 .btn {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #ffd735;
-    color: #333;
+    padding: 12px;
+    height: 44px;
+    background: #ffd735;
+    color: #444;
     text-decoration: none;
     border-radius: 6px;
+    font-size: 16px;
     font-weight: bold;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #f5b700;
 }
 
 /* Responsive Design */

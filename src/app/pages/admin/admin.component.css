@@ -48,21 +48,21 @@
 }
 
 .add-user-btn {
-    background-color: #ff9800;
-    color: white;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 12px 24px;
+    padding: 12px;
+    height: 44px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
     min-width: 140px;
 }
 
 .add-user-btn:hover {
-    background-color: #f57c00;
+    background: #f5b700;
 }
 
 .stats {
@@ -98,21 +98,21 @@
 }
 
 .refresh-btn {
-    background-color: #ffd735;
-    color: #333;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 12px 32px;
+    padding: 12px;
+    height: 44px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
     min-width: 120px;
 }
 
 .refresh-btn:hover:not(:disabled) {
-    background-color: #f5b700;
+    background: #f5b700;
 }
 
 .refresh-btn:disabled {
@@ -214,36 +214,39 @@ tr:hover {
 }
 
 .btn-toggle {
-    background-color: #ffd735;
-    color: #333;
+    background: #ffd735;
+    color: #444;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 12px;
+    height: 44px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .btn-toggle:hover {
-    background-color: #f5b700;
+    background: #f5b700;
 }
 
 .btn {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #ffd735;
-    color: #333;
+    padding: 12px;
+    height: 44px;
+    background: #ffd735;
+    color: #444;
     text-decoration: none;
     border-radius: 6px;
     font-weight: bold;
+    font-size: 16px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .btn:hover {
-    background-color: #ffc107;
+    background: #f5b700;
 }
 
 /* Add User Form */
