@@ -1,0 +1,170 @@
+<main class="pokemon-page">
+    <h1>Pokémon Database</h1>
+    
+    <div class="page-header">
+        <div class="search-box">
+            <input 
+                type="text" 
+                [(ngModel)]="searchTerm"
+                (input)="filterPokemon()"
+                placeholder="Search Pokémon by name, type, or description..."
+                class="search-input">
+        </div>
+        
+        <button 
+            *ngIf="isLoggedIn" 
+            class="btn add-btn" 
+            (click)="toggleAddForm()">
+            {{ showAddForm ? 'Cancel' : 'Add New Pokémon' }}
+        </button>
+    </div>
+
+    <p *ngIf="message" class="message" [style.color]="messageColor">{{ message }}</p>
+
+    <!-- Add/Edit Form -->
+    <div *ngIf="showAddForm || showEditForm" class="pokemon-form">
+        <h2>{{ showEditForm ? 'Edit Pokémon' : 'Add New Pokémon' }}</h2>
+        <form (ngSubmit)="savePokemon()">
+            <div class="form-group">
+                <label>Name *</label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="pokemonName" 
+                    name="pokemonName"
+                    placeholder="e.g., Pikachu"
+                    required
+                    minlength="2"
+                    maxlength="50">
+                <small class="field-hint">Required. 2-50 characters.</small>
+            </div>
+            
+            <div class="form-group">
+                <label>Photo URL *</label>
+                <input 
+                    type="url" 
+                    [(ngModel)]="photoUrl" 
+                    name="photoUrl"
+                    placeholder="https://example.com/pikachu.jpg"
+                    required
+                    pattern="https?://.+"
+                    title="Must be a valid URL starting with http:// or https://">
+                <small class="field-hint">Required. Must be a valid URL starting with http:// or https://</small>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select 
+                        [(ngModel)]="type" 
+                        name="type"
+                        class="form-select">
+                        <option [value]="''">Select Type (Optional)</option>
+                        <option *ngFor="let pokemonType of pokemonTypes" [value]="pokemonType">
+                            {{ pokemonType }}
+                        </option>
+                    </select>
+                    <small class="field-hint">Optional. Select a Pokémon type.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Height (m)</label>
+                    <input 
+                        type="number" 
+                        [(ngModel)]="height" 
+                        name="height"
+                        placeholder="e.g., 0.4"
+                        step="0.1"
+                        min="0"
+                        max="1000">
+                    <small class="field-hint">Optional. Height in meters (0-1000).</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input 
+                        type="number" 
+                        [(ngModel)]="weight" 
+                        name="weight"
+                        placeholder="e.g., 6.0"
+                        step="0.1"
+                        min="0"
+                        max="10000">
+                    <small class="field-hint">Optional. Weight in kilograms (0-10000).</small>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Abilities</label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="abilitiesString" 
+                    name="abilitiesString"
+                    placeholder="e.g., Static, Lightning Rod (comma separated)"
+                    maxlength="200">
+                <small class="field-hint">Optional. Separate multiple abilities with commas. Max 200 characters.</small>
+            </div>
+            
+            <div class="form-group">
+                <label>Description</label>
+                <textarea 
+                    [(ngModel)]="description" 
+                    name="description"
+                    rows="4"
+                    maxlength="500"
+                    placeholder="Enter a description of the Pokémon..."></textarea>
+                <small class="field-hint">Optional. Max 500 characters.</small>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn submit-btn">
+                    {{ showEditForm ? 'Update Pokémon' : 'Add Pokémon' }}
+                </button>
+                <button 
+                    *ngIf="showEditForm" 
+                    type="button" 
+                    class="btn cancel-btn"
+                    (click)="cancelEdit()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading">
+        Loading Pokémon...
+    </div>
+
+    <!-- Pokemon Grid -->
+    <div *ngIf="!isLoading" class="pokemon-grid">
+        <div *ngFor="let pokemon of filteredPokemon" class="pokemon-card">
+            <div class="pokemon-image">
+                <img 
+                    [src]="pokemon.photoUrl || 'assets/images/pokeball-opening.gif'" 
+                    [alt]="pokemon.name"
+                    (error)="onImageError($event)">
+            </div>
+            <div class="pokemon-info">
+                <h3>{{ pokemon.name }}</h3>
+                <p *ngIf="pokemon.type" class="pokemon-type"><strong>Type:</strong> {{ pokemon.type }}</p>
+                <p *ngIf="pokemon.description" class="pokemon-description">{{ pokemon.description }}</p>
+                <div *ngIf="pokemon.height || pokemon.weight" class="pokemon-stats">
+                    <span *ngIf="pokemon.height !== undefined && pokemon.height !== null"><strong>Height:</strong> {{ pokemon.height }} m</span>
+                    <span *ngIf="pokemon.weight !== undefined && pokemon.weight !== null"><strong>Weight:</strong> {{ pokemon.weight }} kg</span>
+                </div>
+                <div *ngIf="pokemon.abilities && pokemon.abilities.length > 0" class="pokemon-abilities">
+                    <strong>Abilities:</strong> {{ pokemon.abilities.join(', ') }}
+                </div>
+            </div>
+            <div *ngIf="isLoggedIn" class="pokemon-actions">
+                <button class="btn edit-btn" (click)="startEdit(pokemon)">Edit</button>
+                <button class="btn delete-btn" (click)="deletePokemon(pokemon)">Delete</button>
+            </div>
+        </div>
+        
+        <div *ngIf="filteredPokemon.length === 0" class="no-pokemon">
+            <p>{{ searchTerm ? 'No Pokémon found matching your search.' : 'No Pokémon in the database yet. Add one to get started!' }}</p>
+        </div>
+    </div>
+</main>
+

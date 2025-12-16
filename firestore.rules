@@ -25,9 +25,21 @@ service cloud.firestore {
                    && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true;
     }
     
-    // Allow reading pokemon collection (if you have one)
-    match /pokemon/{document=**} {
+    // Pokemon collection rules
+    match /pokemon/{pokemonId} {
+      // Allow authenticated users to read all pokemon
       allow read: if request.auth != null;
+      
+      // Allow authenticated users to create pokemon
+      allow create: if request.auth != null
+                   && request.resource.data.name is string
+                   && request.resource.data.photoUrl is string;
+      
+      // Allow authenticated users to update pokemon they created, or any authenticated user can update
+      allow update: if request.auth != null;
+      
+      // Allow authenticated users to delete pokemon they created, or any authenticated user can delete
+      allow delete: if request.auth != null;
     }
   }
 }
