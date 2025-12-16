@@ -118,10 +118,8 @@
     letter-spacing: 2px;
     color: #ffcb05;
     text-shadow: 2px 2px 0 #2a75bb;
-    margin-bottom: -15px;
-    margin-top: -18px;
     font-size: 1.5em;
-    padding: -7px;
+    margin-bottom: -15px;
 }
 
 .card-content p {

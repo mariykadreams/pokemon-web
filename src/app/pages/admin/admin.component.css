@@ -41,6 +41,30 @@
     gap: 20px;
 }
 
+.header-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.add-user-btn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 140px;
+}
+
+.add-user-btn:hover {
+    background-color: #f57c00;
+}
+
 .stats {
     display: flex;
     gap: 20px;
@@ -222,6 +246,24 @@ tr:hover {
     background-color: #ffc107;
 }
 
+/* Add User Form */
+.add-user-form {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-user-form h3 {
+    font-family: 'Pokemon Solid', sans-serif;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 2px 2px 0 #2a75bb;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
 @media (max-width: 768px) {
     .admin-box {
         padding: 10px;
@@ -232,8 +274,25 @@ tr:hover {
         align-items: stretch;
     }
 
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .header-actions .btn {
+        width: 100%;
+    }
+
     .stats {
         justify-content: center;
+    }
+
+    .add-user-form {
+        padding: 20px;
+    }
+
+    .add-user-form h3 {
+        font-size: 1.5em;
     }
 
     .users-table {

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UsersService, User } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RegisterComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -18,6 +19,9 @@ export class AdminComponent implements OnInit {
   isLoading = true;
   isAdmin = false;
   errorMessage = '';
+  
+  // Add user form toggle
+  showAddUserForm = false;
 
   constructor(
     private usersService: UsersService,
@@ -114,6 +118,19 @@ export class AdminComponent implements OnInit {
       console.error('Error updating user admin status:', error);
       this.errorMessage = 'Failed to update user status. Please try again.';
     });
+  }
+
+  toggleAddUserForm(): void {
+    this.showAddUserForm = !this.showAddUserForm;
+  }
+
+  onUserCreated(userInfo: {name: string, email: string}): void {
+    // Reload users list after user is created
+    this.loadUsers();
+    // Close the form after a short delay
+    setTimeout(() => {
+      this.showAddUserForm = false;
+    }, 2000);
   }
 }
 

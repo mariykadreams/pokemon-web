@@ -1,5 +1,5 @@
 <main class="home-box">
-    <h1>Register</h1>
+    <h1 *ngIf="!adminMode">Register</h1>
     <form id="register-form" (ngSubmit)="handleRegister()">
         <input 
             type="text" 
@@ -33,19 +33,29 @@
             placeholder="Confirm Password" 
             required
             [disabled]="isLoading">
+        <div *ngIf="showAdminCheckbox" class="checkbox-group">
+            <label>
+                <input 
+                    type="checkbox" 
+                    [(ngModel)]="isAdminUser" 
+                    name="isAdminUser"
+                    [disabled]="isLoading">
+                Grant admin privileges
+            </label>
+        </div>
         <button 
             type="submit" 
             id="registerButton" 
             class="btn"
             [disabled]="isLoading">
-            {{ isLoading ? 'Registering...' : 'Register' }}
+            {{ isLoading ? (adminMode ? 'Creating...' : 'Registering...') : (adminMode ? 'Create User' : 'Register') }}
         </button>
     </form>
     <p id="message" [style.color]="messageColor">{{ message }}</p>
     <p class="password-requirements">
         Password requirements: Minimum 8 characters, 2 capital letters, 1 digit, 1 special character
     </p>
-    <p class="login-link">
+    <p *ngIf="!adminMode" class="login-link">
         Already have an account? <a routerLink="/login">Login here</a>
     </p>
 </main>

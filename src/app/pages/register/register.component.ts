@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -13,6 +13,11 @@ import { UsersService } from '../../services/users.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  @Input() showAdminCheckbox: boolean = false;
+  @Input() isAdmin: boolean = false;
+  @Input() adminMode: boolean = false; // If true, don't navigate after registration
+  @Output() userCreated = new EventEmitter<{name: string, email: string}>();
+
   name = '';
   email = '';
   password = '';
@@ -20,6 +25,7 @@ export class RegisterComponent {
   message = '';
   messageColor = 'inherit';
   isLoading = false;
+  isAdminUser = false;
 
   constructor(
     private authService: AuthService,
@@ -76,27 +82,43 @@ export class RegisterComponent {
       // Register user with Firebase Auth
       const user = await this.authService.register(this.email, this.password);
       
+      // Determine admin status: use isAdminUser if checkbox is shown, otherwise false
+      const adminStatus = this.showAdminCheckbox ? this.isAdminUser : false;
+      
       // Create user document in Firestore with the same UID as Firebase Auth
       await this.usersService.setUser(user.uid, {
         name: this.name.trim(),
         email: this.email.trim(),
-        admin: false // New users are not admins by default
+        admin: adminStatus
         // whenCreated will be set automatically by setUser
       });
 
-      this.message = '✅ Registration successful! Welcome, ' + this.name + '!';
+      this.message = this.adminMode ? '✅ User created successfully!' : '✅ Registration successful! Welcome, ' + this.name + '!';
       this.messageColor = 'green';
+      
+      // Emit event for admin mode
+      if (this.adminMode) {
+        this.userCreated.emit({ name: this.name, email: this.email });
+      }
       
       // Clear form
       this.name = '';
       this.email = '';
       this.password = '';
       this.confirmPassword = '';
+      this.isAdminUser = false;
       
-      // Navigate to home page after a short delay
-      setTimeout(() => {
-        this.router.navigate(['/']);
-      }, 1000);
+      // Navigate to home page only if not in admin mode
+      if (!this.adminMode) {
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 1000);
+      } else {
+        // In admin mode, reset form after showing success message
+        setTimeout(() => {
+          this.message = '';
+        }, 3000);
+      }
     } catch (error: any) {
       console.error('Registration error:', error);
       console.error('Error details:', {

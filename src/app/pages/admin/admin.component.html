@@ -22,9 +22,24 @@
                     <span class="stat-value">{{ normalUsers.length }}</span>
                 </div>
             </div>
-            <button class="btn refresh-btn" (click)="loadUsers()" [disabled]="isLoading">
-                {{ isLoading ? 'Loading...' : 'Refresh' }}
-            </button>
+            <div class="header-actions">
+                <button class="btn add-user-btn" (click)="toggleAddUserForm()">
+                    {{ showAddUserForm ? 'Cancel' : 'Add New User' }}
+                </button>
+                <button class="btn refresh-btn" (click)="loadUsers()" [disabled]="isLoading">
+                    {{ isLoading ? 'Loading...' : 'Refresh' }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Add User Form -->
+        <div *ngIf="showAddUserForm" class="add-user-form">
+            <h3>Create New User</h3>
+            <app-register 
+                [showAdminCheckbox]="true"
+                [adminMode]="true"
+                (userCreated)="onUserCreated($event)">
+            </app-register>
         </div>
 
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
