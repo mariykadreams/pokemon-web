@@ -110,10 +110,6 @@ export class QuizComponent implements OnInit, OnDestroy {
       this.resultMessage = 'Correct! 🎉';
       this.resultColor = 'green';
       this.score += 1;
-      
-      if (this.currentUsername) {
-        this.score += 5;
-      }
     } else {
       this.resultMessage = `Wrong! It was ${correct}.`;
       this.resultColor = 'red';
@@ -142,8 +138,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
     this.isRunning = false;
     this.gameEnded = true;
-    const bonusText = this.currentUsername ? ' (includes login bonus!)' : '';
-    this.finalScoreMessage = `Quiz Complete! Your Score: ${this.score}${bonusText}`;
+    this.finalScoreMessage = `Quiz Complete! Your Score: ${this.score}`;
     
     // Save score to Firestore if user is logged in
     if (this.authService.isLoggedIn()) {
