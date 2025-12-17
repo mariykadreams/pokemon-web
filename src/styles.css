@@ -1,13 +1,16 @@
 @import url('https://fonts.cdnfonts.com/css/pokemon-solid?styles=24573');
 
+app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f3f3f3;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 body.sidebar-open {
