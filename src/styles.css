@@ -9,6 +9,7 @@ app-root {
 body {
     margin: 0;
     padding: 0;
+    height: 100vh;
     font-family: Arial, sans-serif;
     background: #f3f3f3;
 }
@@ -117,6 +118,12 @@ button {
 .menu-btn:hover {
     background: #f5b700; 
     cursor: pointer;
+}
+
+@keyframes curve {
+    0%   { transform: translate(0, 0); }
+    40%  { transform: translate(var(--cx), var(--cy)); }
+    100% { transform: translate(var(--ex), var(--ey)); }
 }
 
 @media (max-width: 600px) {

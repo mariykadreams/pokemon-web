@@ -28,19 +28,12 @@
     left: calc(50vw - 40px);
 }
 
-@keyframes curve {
-    0%   { transform: translate(0, 0); }
-    40%  { transform: translate(var(--cx), var(--cy)); }
-    100% { transform: translate(var(--ex), var(--ey)); }
-}
-
 #timer-and-score {
     font-family: 'Pokemon Solid', sans-serif;
     letter-spacing: 3px;
     width: 120px;
     display: block;
     position: absolute;
-    top: 75px;
     left: calc(99vw - 120px);
     z-index: 2000;
 }
@@ -60,18 +53,6 @@
     font-size: 20px;
 }
 
-#game-area {
-    position: relative;
-    width: 100%;
-    min-height: calc(100vh - 140px);
-    overflow: hidden;
+#game-menu {
+    flex-shrink: 0;
 }
-
-#game {
-    position: relative;
-    width: 100%;
-    height: calc(100vh - 140px);
-    overflow: hidden;
-    background: transparent;
-}
-

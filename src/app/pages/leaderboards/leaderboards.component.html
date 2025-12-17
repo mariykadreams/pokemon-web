@@ -14,7 +14,7 @@
                 <tr *ngFor="let user of users; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.finding_game_score || 0 }}</td>
+                    <td>{{ user.find_score || 0 }}</td>
                     <td>{{ user.quiz_score || 0 }}</td>
                 </tr>
                 <tr *ngIf="users.length === 0">

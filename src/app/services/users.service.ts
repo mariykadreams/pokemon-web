@@ -8,10 +8,7 @@ export interface User {
   email: string;
   admin: boolean;
   whenCreated: Timestamp | Date;
-  // Legacy fields for backward compatibility
-  username?: string;
-  password?: string;
-  finding_game_score?: number;
+  find_score?: number;
   quiz_score?: number;
 }
 

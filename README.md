@@ -82,8 +82,7 @@ src/
 │   ├── app.component.ts   # Root component
 │   └── app.routes.ts      # Application routes
 ├── assets/
-│   ├── images/            # All image assets
-│   └── users.json         # User data
+│   └── images/            # All image assets
 └── styles.css            # Global styles
 ```
 
@@ -96,7 +95,7 @@ src/
 
 ## Notes
 
-- User data is stored in `assets/users.json`
-- Login state is persisted in localStorage
+- User data is stored in Firebase Firestore
+- Authentication is handled by Firebase Auth
 - All images are served from the `assets/images/` directory
 - The application uses standalone components (no NgModules)
