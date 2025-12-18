@@ -49,8 +49,10 @@
             </div>
         </div>
 
+        <!-- Add User Modal -->
         <ng-template #addUserModal let-modal>
             <div class="modal-header">
+                <h5 class="modal-title">Add New User</h5>
                 <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
             </div>
             <div class="modal-body">
@@ -62,6 +64,32 @@
             </div>
         </ng-template>
 
+        <!-- Confirm Admin Toggle Modal -->
+        <ng-template #confirmAdminModal let-modal>
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Action</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="pendingAdminToggleUser?.admin">
+                    Are you sure you want to <strong>remove admin privileges</strong> from <strong>{{ pendingAdminToggleUser?.name }}</strong>?
+                </p>
+                <p *ngIf="!pendingAdminToggleUser?.admin">
+                    Are you sure you want to <strong>grant admin privileges</strong> to <strong>{{ pendingAdminToggleUser?.name }}</strong>?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+                <button 
+                    type="button" 
+                    [class]="pendingAdminToggleUser?.admin ? 'btn btn-danger' : 'btn btn-warning'"
+                    (click)="modal.close('confirm')">
+                    {{ pendingAdminToggleUser?.admin ? 'Remove Admin' : 'Make Admin' }}
+                </button>
+            </div>
+        </ng-template>
+
+        <!-- Fallback for add user if modal template isn't available -->
         <div *ngIf="showAddUserForm && !addUserModal">
             <app-register
                 [showAdminCheckbox]="true"
@@ -78,12 +106,13 @@
             <p class="mb-0">No users found.</p>
         </div>
 
+        <!-- Administrators Table with Pagination -->
         <div *ngIf="!isLoading && adminUsers.length > 0" class="mb-4">
             <h2 class="h5 mb-3">Administrators ({{ adminUsers.length }})</h2>
             <div class="card shadow-sm">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-warning">
+                    <table class="table table-hover align-middle mb-0 table-warning">
+                        <thead>
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
@@ -93,13 +122,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let user of adminUsers" class="table-warning">
+                            <tr *ngFor="let user of displayedAdminUsers">
                                 <td><span class="font-monospace small text-body-secondary">{{ user.id?.substring(0, 8) }}...</span></td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ formatDate(user.whenCreated) }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger" (click)="toggleAdminStatus(user)" title="Remove admin privileges">
+                                    <button class="btn btn-sm btn-danger" (click)="confirmToggleAdminStatus(user)" title="Remove admin privileges">
                                         Remove Admin
                                     </button>
                                 </td>
@@ -107,9 +136,30 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer table-warning d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="text-body-secondary small mb-0">Rows</label>
+                        <select class="form-select form-select-sm" style="width: 120px;" [(ngModel)]="adminPageSize" (ngModelChange)="adminPage = 1">
+                            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                            <option [value]="adminUsers.length">All</option>
+                        </select>
+                    </div>
+                    <ngb-pagination
+                        class="pagination-warning"
+                        [(page)]="adminPage"
+                        [collectionSize]="adminUsers.length"
+                        [pageSize]="adminPageSize"
+                        [maxSize]="5"
+                        [ellipses]="true"
+                        [boundaryLinks]="true"
+                        [rotate]="true"
+                        size="sm">
+                    </ngb-pagination>
+                </div>
             </div>
         </div>
 
+        <!-- Regular Users Table with Pagination -->
         <div *ngIf="!isLoading && normalUsers.length > 0" class="mb-4">
             <h2 class="h5 mb-3">Regular Users ({{ normalUsers.length }})</h2>
             <div class="card shadow-sm">
@@ -125,13 +175,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let user of normalUsers">
+                            <tr *ngFor="let user of displayedNormalUsers">
                                 <td><span class="font-monospace small text-body-secondary">{{ user.id?.substring(0, 8) }}...</span></td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ formatDate(user.whenCreated) }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning" (click)="toggleAdminStatus(user)" title="Grant admin privileges">
+                                    <button class="btn btn-sm btn-warning" (click)="confirmToggleAdminStatus(user)" title="Grant admin privileges">
                                         Make Admin
                                     </button>
                                 </td>
@@ -139,8 +189,27 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer bg-white d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="text-body-secondary small mb-0">Rows</label>
+                        <select class="form-select form-select-sm" style="width: 120px;" [(ngModel)]="normalPageSize" (ngModelChange)="normalPage = 1">
+                            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                            <option [value]="normalUsers.length">All</option>
+                        </select>
+                    </div>
+                    <ngb-pagination
+                        class="pagination-warning"
+                        [(page)]="normalPage"
+                        [collectionSize]="normalUsers.length"
+                        [pageSize]="normalPageSize"
+                        [maxSize]="5"
+                        [ellipses]="true"
+                        [boundaryLinks]="true"
+                        [rotate]="true"
+                        size="sm">
+                    </ngb-pagination>
+                </div>
             </div>
         </div>
     </div>
 </main>
-

@@ -43,3 +43,32 @@ h1 {
     40%  { transform: translate(var(--cx), var(--cy)); }
     100% { transform: translate(var(--ex), var(--ey)); }
 }
+
+/* Warning-colored pagination */
+.pagination-warning > .pagination {
+    margin: 0;
+}
+
+.pagination-warning .page-link {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.pagination-warning .page-link:hover {
+    color: #533f03;
+    background-color: #ffe69c;
+    border-color: #ffdf7e;
+}
+
+.pagination-warning .page-item.active .page-link {
+    color: #000;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.pagination-warning .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}

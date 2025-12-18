@@ -1,15 +1,16 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { UsersService, User } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
 import { RegisterComponent } from '../register/register.component';
-import { NgbModal, NgbModalModule, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalModule, NgbModalRef, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule, RegisterComponent, NgbModalModule],
+  imports: [CommonModule, RouterModule, FormsModule, RegisterComponent, NgbModalModule, NgbPaginationModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -21,10 +22,26 @@ export class AdminComponent implements OnInit {
   isAdmin = false;
   errorMessage = '';
   
-  // Add user form toggle
+  // Pagination for admin users
+  adminPage = 1;
+  adminPageSize = 10;
+
+  // Pagination for normal users
+  normalPage = 1;
+  normalPageSize = 10;
+
+  // Page size options
+  pageSizeOptions = [5, 10, 25, 50];
+  
+  // Add user modal
   showAddUserForm = false;
   @ViewChild('addUserModal') addUserModal?: TemplateRef<any>;
   private addUserModalRef?: NgbModalRef;
+
+  // Confirm admin toggle modal
+  @ViewChild('confirmAdminModal') confirmAdminModal?: TemplateRef<any>;
+  private confirmAdminModalRef?: NgbModalRef;
+  pendingAdminToggleUser: User | null = null;
 
   constructor(
     private usersService: UsersService,
@@ -89,6 +106,18 @@ export class AdminComponent implements OnInit {
     this.normalUsers = users.filter(user => !user.admin);
   }
 
+  // Paginated admin users
+  get displayedAdminUsers(): User[] {
+    const start = (this.adminPage - 1) * this.adminPageSize;
+    return this.adminUsers.slice(start, start + this.adminPageSize);
+  }
+
+  // Paginated normal users
+  get displayedNormalUsers(): User[] {
+    const start = (this.normalPage - 1) * this.normalPageSize;
+    return this.normalUsers.slice(start, start + this.normalPageSize);
+  }
+
   formatDate(date: any): string {
     if (!date) return 'N/A';
     
@@ -110,8 +139,38 @@ export class AdminComponent implements OnInit {
     return 'N/A';
   }
 
-  toggleAdminStatus(user: User): void {
+  // Open confirmation modal before toggling admin status
+  confirmToggleAdminStatus(user: User): void {
     if (!user.id) return;
+
+    this.pendingAdminToggleUser = user;
+
+    if (!this.confirmAdminModal) {
+      // Fallback: directly toggle if modal template isn't available
+      this.executeToggleAdminStatus();
+      return;
+    }
+
+    this.confirmAdminModalRef = this.modalService.open(this.confirmAdminModal, {
+      centered: true
+    });
+
+    this.confirmAdminModalRef.result.then(
+      (result) => {
+        if (result === 'confirm') {
+          this.executeToggleAdminStatus();
+        }
+        this.pendingAdminToggleUser = null;
+      },
+      () => {
+        this.pendingAdminToggleUser = null;
+      }
+    );
+  }
+
+  executeToggleAdminStatus(): void {
+    const user = this.pendingAdminToggleUser;
+    if (!user?.id) return;
 
     const newAdminStatus = !user.admin;
     
@@ -164,4 +223,3 @@ export class AdminComponent implements OnInit {
     this.showAddUserForm = false;
   }
 }
-
