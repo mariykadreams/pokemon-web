@@ -1,128 +1,138 @@
-<main class="admin-box">
-    <h1>Admin Panel</h1>
-    
-    <div *ngIf="!isAdmin" class="error-container">
-        <p class="error-message">{{ errorMessage || 'Access denied. Admin privileges required.' }}</p>
-        <a routerLink="/" class="btn">Go to Home</a>
+<main class="container">
+    <h1 class="text-center mb-4">Admin Panel</h1>
+
+    <div *ngIf="!isAdmin" class="alert alert-warning d-flex flex-column align-items-center text-center gap-2" role="alert">
+        <div class="fw-semibold">{{ errorMessage || 'Access denied. Admin privileges required.' }}</div>
+        <a routerLink="/" class="btn btn-outline-secondary">Go to Home</a>
     </div>
 
     <div *ngIf="isAdmin">
-        <div class="admin-header">
-            <div class="stats">
-                <div class="stat-card">
-                    <span class="stat-label">Total Users</span>
-                    <span class="stat-value">{{ allUsers.length }}</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Admins</span>
-                    <span class="stat-value">{{ adminUsers.length }}</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Regular Users</span>
-                    <span class="stat-value">{{ normalUsers.length }}</span>
+        <div class="row g-3 align-items-stretch mb-4">
+            <div class="col-12 col-lg">
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow-sm text-center h-100">
+                            <div class="card-body">
+                                <div class="text-body-secondary small">Total Users</div>
+                                <div class="display-6 fw-bold">{{ allUsers.length }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow-sm text-center h-100">
+                            <div class="card-body">
+                                <div class="text-body-secondary small">Admins</div>
+                                <div class="display-6 fw-bold">{{ adminUsers.length }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow-sm text-center h-100">
+                            <div class="card-body">
+                                <div class="text-body-secondary small">Regular Users</div>
+                                <div class="display-6 fw-bold">{{ normalUsers.length }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="btn add-user-btn" (click)="toggleAddUserForm()">
-                    {{ showAddUserForm ? 'Cancel' : 'Add New User' }}
-                </button>
-                <button class="btn refresh-btn" (click)="loadUsers()" [disabled]="isLoading">
-                    {{ isLoading ? 'Loading...' : 'Refresh' }}
-                </button>
-            </div>
-        </div>
 
-        <!-- Add User Form -->
-        <div *ngIf="showAddUserForm" class="add-user-form">
-            <h3>Create New User</h3>
-            <app-register 
-                [showAdminCheckbox]="true"
-                [adminMode]="true"
-                (userCreated)="onUserCreated($event)">
-            </app-register>
-        </div>
-
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-        <div *ngIf="isLoading" class="loading">Loading users...</div>
-
-        <div *ngIf="!isLoading && allUsers.length === 0" class="no-users">
-            <p>No users found.</p>
-        </div>
-
-        <!-- Admin Users Section -->
-        <div *ngIf="!isLoading && adminUsers.length > 0" class="users-section">
-            <h2>Administrators ({{ adminUsers.length }})</h2>
-            <div class="users-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Admin</th>
-                            <th>Created</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let user of adminUsers" class="admin-row">
-                            <td class="user-id">{{ user.id?.substring(0, 8) }}...</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>
-                                <span class="badge admin-badge">Admin</span>
-                            </td>
-                            <td>{{ formatDate(user.whenCreated) }}</td>
-                            <td>
-                                <button 
-                                    class="btn-toggle" 
-                                    (click)="toggleAdminStatus(user)"
-                                    title="Remove admin privileges">
-                                    Remove Admin
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-12 col-lg-auto">
+                <div class="d-flex flex-column gap-2 h-100 justify-content-between">
+                    <button class="btn btn-warning fw-bold" (click)="toggleAddUserForm()">
+                        {{ showAddUserForm ? 'Cancel' : 'Add New User' }}
+                    </button>
+                    <button class="btn btn-outline-secondary" (click)="loadUsers()" [disabled]="isLoading">
+                        {{ isLoading ? 'Loading...' : 'Refresh' }}
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Normal Users Section -->
-        <div *ngIf="!isLoading && normalUsers.length > 0" class="users-section">
-            <h2>Regular Users ({{ normalUsers.length }})</h2>
-            <div class="users-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Admin</th>
-                            <th>Created</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let user of normalUsers">
-                            <td class="user-id">{{ user.id?.substring(0, 8) }}...</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>
-                                <span class="badge user-badge">User</span>
-                            </td>
-                            <td>{{ formatDate(user.whenCreated) }}</td>
-                            <td>
-                                <button 
-                                    class="btn-toggle" 
-                                    (click)="toggleAdminStatus(user)"
-                                    title="Grant admin privileges">
-                                    Make Admin
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div *ngIf="showAddUserForm" class="card shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h3 class="h5 pokemon-subheading mb-3">Create New User</h3>
+                <app-register
+                    [showAdminCheckbox]="true"
+                    [adminMode]="true"
+                    (userCreated)="onUserCreated($event)">
+                </app-register>
+            </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger py-2 mb-3" role="alert">{{ errorMessage }}</div>
+
+        <div *ngIf="isLoading" class="text-center py-5 text-body-secondary">Loading users...</div>
+
+        <div *ngIf="!isLoading && allUsers.length === 0" class="text-center py-5 text-body-secondary">
+            <p class="mb-0">No users found.</p>
+        </div>
+
+        <div *ngIf="!isLoading && adminUsers.length > 0" class="mb-4">
+            <h2 class="h5 mb-3">Administrators ({{ adminUsers.length }})</h2>
+            <div class="card shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-warning">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Admin</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of adminUsers" class="table-warning">
+                                <td><span class="font-monospace small text-body-secondary">{{ user.id?.substring(0, 8) }}...</span></td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td><span class="badge text-bg-warning">Admin</span></td>
+                                <td>{{ formatDate(user.whenCreated) }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-danger" (click)="toggleAdminStatus(user)" title="Remove admin privileges">
+                                        Remove Admin
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!isLoading && normalUsers.length > 0" class="mb-4">
+            <h2 class="h5 mb-3">Regular Users ({{ normalUsers.length }})</h2>
+            <div class="card shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Admin</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of normalUsers">
+                                <td><span class="font-monospace small text-body-secondary">{{ user.id?.substring(0, 8) }}...</span></td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td><span class="badge text-bg-secondary">User</span></td>
+                                <td>{{ formatDate(user.whenCreated) }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" (click)="toggleAdminStatus(user)" title="Grant admin privileges">
+                                        Make Admin
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

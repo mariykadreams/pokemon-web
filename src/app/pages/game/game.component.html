@@ -1,19 +1,33 @@
-<section id="game-menu" class="home-box" #gameMenu>
-    <h1>Find That Pokémon</h1>
-    <div class="game-instructions" #gameInstructions>
-        <h3>Welcome to Find That Pokémon!</h3>
-        <p>
-            Your goal is to find the hidden pokémon among the trainers. <br>
-            You have 30 seconds, and for every pokémon that you find, you win one point. 
-        </p>
-    </div>
-    <div class="home-links" id="game-links" #gameLinks>
-        <button id="start-game-button" class="menu-btn" (click)="startGame()">Start Game</button>
-    </div>
-    <div id="game-ended" #gameEnded>
-        <p id="final-score-message">{{ finalScoreMessage }}</p>
-        <p>To learn more about pokémon, <a href="https://www.pokemon.com/us/pokedex" target="_blank" class="external-link">check out</a>.</p>
-        <button id="back-to-menu-button" class="menu-btn" (click)="showGameMenu()">Back</button>
+<section id="game-menu" class="container" #gameMenu>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <h1 class="h3 mb-3">Find That Pokémon</h1>
+
+                    <div class="mb-3" #gameInstructions>
+                        <h3 class="h5 mb-2">Welcome to Find That Pokémon!</h3>
+                        <p class="mb-0">
+                            Your goal is to find the hidden pokémon among the trainers.<br>
+                            You have 30 seconds, and for every pokémon that you find, you win one point.
+                        </p>
+                    </div>
+
+                    <div id="game-links" #gameLinks class="d-grid gap-2">
+                        <button id="start-game-button" class="btn btn-warning fw-bold" (click)="startGame()">Start Game</button>
+                    </div>
+
+                    <div id="game-ended" #gameEnded class="mt-3">
+                        <p id="final-score-message" class="h5 mb-2">{{ finalScoreMessage }}</p>
+                        <p class="mb-3">
+                            To learn more about pokémon,
+                            <a href="https://www.pokemon.com/us/pokedex" target="_blank" class="external-link">check out</a>.
+                        </p>
+                        <button id="back-to-menu-button" class="btn btn-outline-secondary w-100 fw-semibold" (click)="showGameMenu()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

@@ -1,62 +1,94 @@
-<main class="home-box">
-    <h1 *ngIf="!adminMode">Register</h1>
-    <form id="register-form" (ngSubmit)="handleRegister()">
-        <input 
-            type="text" 
-            id="name" 
-            [(ngModel)]="name" 
-            name="name"
-            placeholder="Full Name" 
-            required
-            [disabled]="isLoading">
-        <input 
-            type="email" 
-            id="email" 
-            [(ngModel)]="email" 
-            name="email"
-            placeholder="Email" 
-            required
-            [disabled]="isLoading">
-        <input 
-            type="password" 
-            id="password" 
-            [(ngModel)]="password" 
-            name="password"
-            placeholder="Password" 
-            required
-            [disabled]="isLoading">
-        <input 
-            type="password" 
-            id="confirmPassword" 
-            [(ngModel)]="confirmPassword" 
-            name="confirmPassword"
-            placeholder="Confirm Password" 
-            required
-            [disabled]="isLoading">
-        <div *ngIf="showAdminCheckbox" class="checkbox-group">
-            <label>
-                <input 
-                    type="checkbox" 
-                    [(ngModel)]="isAdminUser" 
-                    name="isAdminUser"
-                    [disabled]="isLoading">
-                Grant admin privileges
-            </label>
-        </div>
-        <button 
-            type="submit" 
-            id="registerButton" 
-            class="btn"
-            [disabled]="isLoading">
-            {{ isLoading ? (adminMode ? 'Creating...' : 'Registering...') : (adminMode ? 'Create User' : 'Register') }}
-        </button>
-    </form>
-    <p id="message" [style.color]="messageColor">{{ message }}</p>
-    <p class="password-requirements">
-        Password requirements: Minimum 8 characters, 2 capital letters, 1 digit, 1 special character
-    </p>
-    <p *ngIf="!adminMode" class="login-link">
-        Already have an account? <a routerLink="/login">Login here</a>
-    </p>
-</main>
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-7 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h3 text-center mb-4">{{ adminMode ? 'Create User' : 'Register' }}</h1>
 
+                    <form id="register-form" (ngSubmit)="handleRegister()">
+                        <div class="mb-3">
+                            <input
+                                type="text"
+                                id="name"
+                                [(ngModel)]="name"
+                                name="name"
+                                placeholder="Full Name"
+                                class="form-control"
+                                required
+                                [disabled]="isLoading">
+                        </div>
+
+                        <div class="mb-3">
+                            <input
+                                type="email"
+                                id="email"
+                                [(ngModel)]="email"
+                                name="email"
+                                placeholder="Email"
+                                class="form-control"
+                                required
+                                [disabled]="isLoading">
+                        </div>
+
+                        <div class="mb-3">
+                            <input
+                                type="password"
+                                id="password"
+                                [(ngModel)]="password"
+                                name="password"
+                                placeholder="Password"
+                                class="form-control"
+                                required
+                                [disabled]="isLoading">
+                        </div>
+
+                        <div class="mb-2">
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                [(ngModel)]="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                class="form-control"
+                                required
+                                [disabled]="isLoading">
+                        </div>
+
+                        <div class="form-text text-body-secondary mb-3">
+                            Password requirements: Minimum 8 characters, 2 capital letters, 1 digit, 1 special character
+                        </div>
+
+                        <div *ngIf="showAdminCheckbox" class="form-check text-start mb-3">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="isAdminUser"
+                                [(ngModel)]="isAdminUser"
+                                name="isAdminUser"
+                                [disabled]="isLoading">
+                            <label class="form-check-label" for="isAdminUser">
+                                Grant admin privileges
+                            </label>
+                        </div>
+
+                        <button
+                            type="submit"
+                            id="registerButton"
+                            class="btn btn-warning w-100 fw-bold"
+                            [disabled]="isLoading">
+                            {{ isLoading ? (adminMode ? 'Creating...' : 'Registering...') : (adminMode ? 'Create User' : 'Register') }}
+                        </button>
+                    </form>
+
+                    <div *ngIf="message" class="alert py-2 mt-3 mb-0" [ngClass]="messageColor === 'green' ? 'alert-success' : 'alert-danger'" role="alert">
+                        {{ message }}
+                    </div>
+
+                    <p *ngIf="!adminMode" class="text-center mt-3 mb-0">
+                        Already have an account? <a routerLink="/login" class="external-link">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -91,7 +91,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   onResize() {
-    if (window.innerWidth > 600) {
+    // Keep navbar state consistent with the custom collapse breakpoint (680px)
+    if (window.innerWidth >= 680) {
       this.closeMenu();
     }
   }

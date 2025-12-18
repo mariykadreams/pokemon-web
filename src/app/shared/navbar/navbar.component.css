@@ -1,126 +1,25 @@
-.navbar {
-    --navbar-height: 70px;
-    height: 40px;
-    background: #ffffff;
-    padding: 15px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.navbar nav {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex: 1;
-}
-
-.navbar a {
-    text-decoration: none;
-    color: #444;
-    font-weight: bold;
-}
-
-.navbar a.active {
-    color:  #ffd735;
-}
-
-.admin-link {
-    color: #ff9800 !important;
-    font-weight: bold;
-}
-
-.admin-link.active {
-    color: #ff9800 !important;
-    border-bottom: 2px solid #ff9800;
-}
-
-.logout-link {
-    color: #666 !important;
-    cursor: pointer;
-}
-
-.logout-link:hover {
-    color: #d32f2f !important;
-}
-
-.burger {
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    cursor: pointer;
-}
-
-.burger span {
-    display: block;
-    width: 26px;
-    height: 3px;
-    background: #777;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.burger.open span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
-}
-
-.burger.open span:nth-child(2) {
-    opacity: 0;
-}
-
-.burger.open span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
-}
-
-.navbar > a {
-    text-decoration: none;
-    display: inline-block;
-}
-
 .logo {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
+    width: 32px;
+    height: 32px;
 }
 
-@media (max-width: 600px) {
-    .burger {
-        display: inline-flex;
+.nav-link.active {
+    font-weight: 600;
+}
+
+/* Bootstrap navbar expand breakpoint at 680px (custom) */
+@media (min-width: 680px) {
+    .navbar-expand-custom .navbar-toggler {
+        display: none;
     }
 
-    .navbar {
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .navbar-expand-custom .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
     }
 
-    .navbar nav {
-        position: fixed;
-        top: var(--navbar-height);
-        left: -100%;
-        width: 200px;
-        height: calc(100vh - var(--navbar-height));
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        background: #ffffff;
-        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-        padding: 24px 20px;
-        gap: 16px;
-        transition: left 0.3s ease;
-        z-index: 1000;
-    }
-
-    .navbar nav.open {
-        left: 0;
-    }
-
-    .navbar nav a {
-        width: 100%;
+    .navbar-expand-custom .navbar-nav {
+        flex-direction: row;
     }
 }
 

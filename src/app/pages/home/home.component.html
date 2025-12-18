@@ -1,66 +1,70 @@
-<main class="home-page">
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-image">
-            <img src="assets/images/trainers_and_pokemons.png" alt="Pokémon Trainers and Pokémon">
-        </div>
-        <div class="hero-content">
-            <h1>Welcome to Pokémon Learning Hub</h1>
-            <p class="hero-description">
-                Discover and learn more about the amazing world of Pokémon! This website offers
-                fun and interactive ways to expand your Pokémon knowledge through exciting games
-                and challenges.
-            </p>
-        </div>
-    </section>
-
-    <section class="learning-section">
-        <h2>Learn About Pokémon Through Interactive Games</h2>
-        <div class="learning-cards">
-            <div class="learning-card">
-                <div class="card-image">
-                    <img src="assets/images/quiz/pikachu_who_1.png" alt="Quiz Game">
-                </div>
-                <div class="card-content">
-                    <h3>Quiz Game</h3>
-                    <p>
-                        Test your knowledge by guessing Pokémon from their silhouettes!
-                        Challenge yourself to identify Pokémon quickly and accurately.
-                        Perfect your recognition skills while having fun!
-                    </p>
-                    <a routerLink="/quiz" class="card-btn">Play Quiz</a>
-                </div>
+<main class="container">
+    <section class="p-4 p-md-5 mb-4 bg-white rounded-3 shadow-sm">
+        <div class="row align-items-center g-4">
+            <div class="col-12 col-lg-6">
+                <img
+                    src="assets/images/trainers_and_pokemons.png"
+                    alt="Pokémon Trainers and Pokémon"
+                    class="img-fluid rounded-3 shadow-sm"
+                >
             </div>
-
-            <div class="learning-card">
-                <div class="card-image">
-                    <img src="assets/images/search.png" alt="Find Game">
-                </div>
-                <div class="card-content">
-                    <h3>Find That Pokémon</h3>
-                    <p>
-                        Spot hidden Pokémon among trainers in this fast-paced game!
-                        Sharpen your observation skills and learn to quickly identify
-                        different Pokémon in various scenarios.
-                    </p>
-                    <a routerLink="/game" class="card-btn">Play Find Game</a>
-                </div>
+            <div class="col-12 col-lg-6 text-center text-lg-start">
+                <h1 class="mb-3">Welcome to Pokémon Learning Hub</h1>
+                <p class="lead mb-0">
+                    Discover and learn more about the amazing world of Pokémon! This website offers
+                    fun and interactive ways to expand your Pokémon knowledge through exciting games
+                    and challenges.
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Quick Navigation Section -->
-    <section class="navigation-section">
-        <h2>Explore More</h2>
-        <nav class="home-links">
-            <a routerLink="/pokemon" class="btn">Pokémon Database</a>
-            <a routerLink="/quiz" class="btn">Quiz</a>
-            <a routerLink="/game" class="btn">Find That Pokémon</a>
-            <a routerLink="/leaderboards" class="btn">Leaderboard</a>
-            <a routerLink="/about" class="btn">About</a>
-            <a routerLink="/login" class="btn">Login</a>
+    <section class="mb-4">
+        <h2 class="h3 text-center mb-4 pokemon-subheading">Learn About Pokémon Through Interactive Games</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <img src="assets/images/quiz/pikachu_who_1.png" alt="Quiz Game" class="card-img-top home-card-image">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="h5 mb-3 pokemon-subheading">Quiz Game</h3>
+                        <p class="card-text flex-grow-1">
+                            Test your knowledge by guessing Pokémon from their silhouettes!
+                            Challenge yourself to identify Pokémon quickly and accurately.
+                            Perfect your recognition skills while having fun!
+                        </p>
+                        <a routerLink="/quiz" class="btn btn-warning fw-bold mt-2">Play Quiz</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <img src="assets/images/search.png" alt="Find Game" class="card-img-top home-card-image">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="h5 mb-3 pokemon-subheading">Find That Pokémon</h3>
+                        <p class="card-text flex-grow-1">
+                            Spot hidden Pokémon among trainers in this fast-paced game!
+                            Sharpen your observation skills and learn to quickly identify
+                            different Pokémon in various scenarios.
+                        </p>
+                        <a routerLink="/game" class="btn btn-warning fw-bold mt-2">Play Find Game</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white rounded-3 shadow-sm p-4 p-md-5 text-center">
+        <h2 class="h3 mb-4 pokemon-subheading">Explore More</h2>
+        <nav class="d-flex flex-wrap justify-content-center gap-2">
+            <a routerLink="/pokemon" class="btn btn-warning fw-bold">Pokémon Database</a>
+            <a routerLink="/quiz" class="btn btn-outline-secondary fw-semibold">Quiz</a>
+            <a routerLink="/game" class="btn btn-outline-secondary fw-semibold">Find That Pokémon</a>
+            <a routerLink="/leaderboards" class="btn btn-outline-secondary fw-semibold">Leaderboard</a>
+            <a routerLink="/about" class="btn btn-outline-secondary fw-semibold">About</a>
+            <a routerLink="/login" class="btn btn-outline-secondary fw-semibold">Login</a>
         </nav>
-        <p class="footer-note">
+        <p class="text-body-secondary mt-3 mb-0">
             For more information about Pokémon, visit
             <a href="https://www.pokemon.com" target="_blank" class="external-link">the official Pokémon website</a>.
         </p>
