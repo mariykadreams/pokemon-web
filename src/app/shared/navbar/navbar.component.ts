@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { Subscription } from 'rxjs';
@@ -20,7 +20,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -84,6 +85,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       await this.authService.logout();
       this.isAdmin = false;
       this.isLoggedIn = false;
+      await this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error logging out:', error);
     }

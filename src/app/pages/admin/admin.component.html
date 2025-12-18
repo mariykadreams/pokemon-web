@@ -49,15 +49,12 @@
             </div>
         </div>
 
-        <div *ngIf="showAddUserForm" class="card shadow-sm mb-4">
-            <div class="card-body p-4">
-                <h3 class="h5 pokemon-subheading mb-3">Create New User</h3>
-                <app-register
-                    [showAdminCheckbox]="true"
-                    [adminMode]="true"
-                    (userCreated)="onUserCreated($event)">
-                </app-register>
-            </div>
+        <div *ngIf="showAddUserForm">
+            <app-register
+                [showAdminCheckbox]="true"
+                [adminMode]="true"
+                (userCreated)="onUserCreated($event)">
+            </app-register>
         </div>
 
         <div *ngIf="errorMessage" class="alert alert-danger py-2 mb-3" role="alert">{{ errorMessage }}</div>
@@ -78,7 +75,6 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Admin</th>
                                 <th scope="col">Created</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -88,7 +84,6 @@
                                 <td><span class="font-monospace small text-body-secondary">{{ user.id?.substring(0, 8) }}...</span></td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
-                                <td><span class="badge text-bg-warning">Admin</span></td>
                                 <td>{{ formatDate(user.whenCreated) }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-danger" (click)="toggleAdminStatus(user)" title="Remove admin privileges">
@@ -112,7 +107,6 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Admin</th>
                                 <th scope="col">Created</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -122,7 +116,6 @@
                                 <td><span class="font-monospace small text-body-secondary">{{ user.id?.substring(0, 8) }}...</span></td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
-                                <td><span class="badge text-bg-secondary">User</span></td>
                                 <td>{{ formatDate(user.whenCreated) }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-warning" (click)="toggleAdminStatus(user)" title="Grant admin privileges">

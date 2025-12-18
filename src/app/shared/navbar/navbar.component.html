@@ -1,4 +1,4 @@
-<header class="navbar navbar-expand-sm navbar-light bg-white shadow-sm sticky-top">
+<header class="navbar navbar-expand-custom navbar-light bg-white shadow-sm sticky-top">
     <div class="container-fluid">
         <a routerLink="/" class="navbar-brand d-flex align-items-center">
             <img src="assets/images/pokemon_logo.svg" alt="Logo" class="logo me-2">
@@ -16,7 +16,7 @@
         </button>
 
         <div id="site-menu" class="collapse navbar-collapse" [class.show]="isMenuOpen">
-            <nav class="navbar-nav ms-auto gap-sm-2">
+            <nav class="navbar-nav ms-auto gap-sm-4">
                 <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a>
                 <a class="nav-link" routerLink="/pokemon" routerLinkActive="active" (click)="closeMenu()">Pokémon</a>
                 <a class="nav-link" routerLink="/quiz" routerLinkActive="active" (click)="closeMenu()">Quiz</a>
