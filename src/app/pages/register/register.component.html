@@ -3,7 +3,7 @@
         <div class="col-12 col-sm-10 col-md-7 col-lg-6">
             <div class="card shadow-sm">
                 <div class="card-body p-4">
-                    <h1 class="h3 text-center mb-4">{{ adminMode ? 'Create User' : 'Register' }}</h1>
+                    <h1 class="text-center mb-4">{{ adminMode ? 'Create User' : 'Register' }}</h1>
 
                     <form id="register-form" (ngSubmit)="handleRegister()">
                         <div class="mb-3">
@@ -74,7 +74,7 @@
                         <button
                             type="submit"
                             id="registerButton"
-                            class="btn btn-warning w-100 fw-bold"
+                            class="btn btn-success w-100 fw-bold"
                             [disabled]="isLoading">
                             {{ isLoading ? (adminMode ? 'Creating...' : 'Registering...') : (adminMode ? 'Create User' : 'Register') }}
                         </button>

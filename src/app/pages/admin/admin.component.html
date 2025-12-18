@@ -39,7 +39,7 @@
 
             <div class="col-12 col-lg-auto">
                 <div class="d-flex flex-column gap-2 h-100 justify-content-between">
-                    <button class="btn btn-warning fw-bold" (click)="toggleAddUserForm()">
+                    <button class="btn btn-success fw-bold" [ngClass]="{'btn-warning': showAddUserForm}" (click)="toggleAddUserForm()">
                         {{ showAddUserForm ? 'Cancel' : 'Add New User' }}
                     </button>
                     <button class="btn btn-outline-secondary" (click)="loadUsers()" [disabled]="isLoading">
@@ -91,7 +91,7 @@
                                 <td><span class="badge text-bg-warning">Admin</span></td>
                                 <td>{{ formatDate(user.whenCreated) }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-danger" (click)="toggleAdminStatus(user)" title="Remove admin privileges">
+                                    <button class="btn btn-sm btn-danger" (click)="toggleAdminStatus(user)" title="Remove admin privileges">
                                         Remove Admin
                                     </button>
                                 </td>
@@ -125,7 +125,7 @@
                                 <td><span class="badge text-bg-secondary">User</span></td>
                                 <td>{{ formatDate(user.whenCreated) }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-warning" (click)="toggleAdminStatus(user)" title="Grant admin privileges">
+                                    <button class="btn btn-sm btn-warning" (click)="toggleAdminStatus(user)" title="Grant admin privileges">
                                         Make Admin
                                     </button>
                                 </td>

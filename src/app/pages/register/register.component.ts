@@ -53,7 +53,7 @@ export class RegisterComponent {
 
     // Validation
     if (!this.name.trim()) {
-      this.message = '❌ Please enter your name.';
+      this.message = '❌ Please enter a name.';
       this.messageColor = 'red';
       return;
     }
