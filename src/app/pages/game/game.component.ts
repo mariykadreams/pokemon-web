@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } fr
 import { CommonModule } from '@angular/common';
 import { GameService, GameDomElements } from '../../services/game.service';
 import { Subscription } from 'rxjs';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbProgressbarModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
@@ -24,6 +25,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   timeRemaining = 30;
   gameState: 'menu' | 'playing' | 'ended' = 'menu';
   finalScoreMessage = '';
+  readonly GAME_DURATION_SECONDS = 30;
 
   private subscriptions = new Subscription();
 
@@ -95,5 +97,9 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showGameMenu(): void {
     this.gameService.showGameMenu();
+  }
+
+  get timerProgressType(): string {
+    return this.timeRemaining <= 10 ? 'danger' : 'warning';
   }
 }

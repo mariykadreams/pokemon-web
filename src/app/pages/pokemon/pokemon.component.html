@@ -181,3 +181,21 @@
     </div>
 </main>
 
+<ng-template #deleteConfirmModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Delete Pokémon</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+    </div>
+    <div class="modal-body">
+        <p class="mb-0">
+            Are you sure you want to delete
+            <strong>{{ pendingDeletePokemon?.name }}</strong>?
+        </p>
+        <p class="text-body-secondary small mb-0 mt-2">This action can’t be undone.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('confirm')">Delete</button>
+    </div>
+</ng-template>
+

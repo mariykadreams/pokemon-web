@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UsersService, User } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
 import { RegisterComponent } from '../register/register.component';
+import { NgbModal, NgbModalModule, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule, RegisterComponent],
+  imports: [CommonModule, RouterModule, RegisterComponent, NgbModalModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -22,10 +23,13 @@ export class AdminComponent implements OnInit {
   
   // Add user form toggle
   showAddUserForm = false;
+  @ViewChild('addUserModal') addUserModal?: TemplateRef<any>;
+  private addUserModalRef?: NgbModalRef;
 
   constructor(
     private usersService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: NgbModal
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -121,7 +125,28 @@ export class AdminComponent implements OnInit {
   }
 
   toggleAddUserForm(): void {
-    this.showAddUserForm = !this.showAddUserForm;
+    if (this.showAddUserForm) {
+      this.closeAddUserModal();
+      return;
+    }
+
+    if (!this.addUserModal) {
+      // Fallback: keep previous behavior if template isn't available
+      this.showAddUserForm = true;
+      return;
+    }
+
+    this.showAddUserForm = true;
+    this.addUserModalRef = this.modalService.open(this.addUserModal, {
+      size: 'lg',
+      centered: true,
+      scrollable: true
+    });
+
+    this.addUserModalRef.result.finally(() => {
+      this.showAddUserForm = false;
+      this.addUserModalRef = undefined;
+    });
   }
 
   onUserCreated(userInfo: {name: string, email: string}): void {
@@ -129,8 +154,14 @@ export class AdminComponent implements OnInit {
     this.loadUsers();
     // Close the form after a short delay
     setTimeout(() => {
-      this.showAddUserForm = false;
+      this.closeAddUserModal();
     }, 2000);
+  }
+
+  closeAddUserModal(): void {
+    this.addUserModalRef?.close('closed');
+    this.addUserModalRef = undefined;
+    this.showAddUserForm = false;
   }
 }
 

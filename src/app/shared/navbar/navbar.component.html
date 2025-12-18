@@ -4,29 +4,54 @@
             <img src="assets/images/pokemon_logo.svg" alt="Logo" class="logo me-2">
         </a>
 
+        <!-- Toggler visible only below 680px -->
         <button
             class="navbar-toggler"
             type="button"
             (click)="toggleMenu()"
-            [attr.aria-expanded]="isMenuOpen"
-            aria-controls="site-menu"
+            aria-controls="mobileNav"
             aria-label="Toggle navigation"
         >
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div id="site-menu" class="collapse navbar-collapse" [class.show]="isMenuOpen">
-            <nav class="navbar-nav ms-auto gap-sm-4">
-                <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a>
-                <a class="nav-link" routerLink="/pokemon" routerLinkActive="active" (click)="closeMenu()">Pokémon</a>
-                <a class="nav-link" routerLink="/quiz" routerLinkActive="active" (click)="closeMenu()">Quiz</a>
-                <a class="nav-link" routerLink="/game" routerLinkActive="active" (click)="closeMenu()">Find</a>
-                <a class="nav-link" routerLink="/leaderboards" routerLinkActive="active" (click)="closeMenu()">Leaderboard</a>
-                <a class="nav-link" routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
-                <a *ngIf="isAdmin" class="nav-link text-warning fw-semibold" routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
-                <a *ngIf="!isLoggedIn" class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a>
-                <a *ngIf="isLoggedIn" class="nav-link text-danger" role="button" (click)="logout(); closeMenu()">Logout</a>
+        <!-- Desktop nav (visible >= 680px) -->
+        <div class="d-none d-custom-flex flex-grow-1">
+            <nav class="navbar-nav ms-auto gap-3">
+                <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+                <a class="nav-link" routerLink="/pokemon" routerLinkActive="active">Pokémon</a>
+                <a class="nav-link" routerLink="/quiz" routerLinkActive="active">Quiz</a>
+                <a class="nav-link" routerLink="/game" routerLinkActive="active">Find</a>
+                <a class="nav-link" routerLink="/leaderboards" routerLinkActive="active">Leaderboard</a>
+                <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+                <a *ngIf="isAdmin" class="nav-link text-warning fw-semibold" routerLink="/admin" routerLinkActive="active">Admin</a>
+                <a *ngIf="!isLoggedIn" class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+                <a *ngIf="isLoggedIn" class="nav-link text-danger" role="button" (click)="logout()">Logout</a>
             </nav>
         </div>
     </div>
 </header>
+
+<!-- Mobile offcanvas nav (visible < 680px) -->
+<ng-template #mobileNav let-offcanvas>
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title d-flex align-items-center mb-0">
+            <img src="assets/images/pokemon_logo.svg" alt="Logo" class="logo me-2">
+            <span>Pokémon Hub</span>
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss()"></button>
+    </div>
+    <div class="offcanvas-body pt-3">
+        <nav class="nav flex-column gap-2">
+            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a>
+            <a class="nav-link" routerLink="/pokemon" routerLinkActive="active" (click)="closeMenu()">Pokémon</a>
+            <a class="nav-link" routerLink="/quiz" routerLinkActive="active" (click)="closeMenu()">Quiz</a>
+            <a class="nav-link" routerLink="/game" routerLinkActive="active" (click)="closeMenu()">Find</a>
+            <a class="nav-link" routerLink="/leaderboards" routerLinkActive="active" (click)="closeMenu()">Leaderboard</a>
+            <a class="nav-link" routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
+            <a *ngIf="isAdmin" class="nav-link text-warning fw-semibold" routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
+            <a *ngIf="!isLoggedIn" class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a>
+            <a *ngIf="isLoggedIn" class="nav-link text-danger" role="button" (click)="logout()">Logout</a>
+        </nav>
+    </div>
+</ng-template>

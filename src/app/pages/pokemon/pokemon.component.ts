@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService, Pokemon, PokemonType } from '../../services/pokemon.service';
 import { AuthService } from '../../services/auth.service';
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-pokemon',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbModalModule],
   templateUrl: './pokemon.component.html',
   styleUrl: './pokemon.component.css'
 })
@@ -39,9 +40,13 @@ export class PokemonComponent implements OnInit {
   pokemonTypes = Object.values(PokemonType);
   PokemonType = PokemonType; // Make enum available in template
 
+  @ViewChild('deleteConfirmModal') deleteConfirmModal?: TemplateRef<any>;
+  pendingDeletePokemon: Pokemon | null = null;
+
   constructor(
     private pokemonService: PokemonService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -230,10 +235,27 @@ export class PokemonComponent implements OnInit {
 
   async deletePokemon(pokemon: Pokemon): Promise<void> {
     if (!pokemon.id) return;
-    
-    if (!confirm(`Are you sure you want to delete ${pokemon.name}?`)) {
-      return;
+
+    // Prefer a Bootstrap modal confirmation (non-breaking: fall back to window.confirm)
+    let confirmed = false;
+    if (this.deleteConfirmModal) {
+      this.pendingDeletePokemon = pokemon;
+      try {
+        const result = await this.modalService.open(this.deleteConfirmModal, {
+          centered: true,
+          backdrop: 'static'
+        }).result;
+        confirmed = result === 'confirm';
+      } catch {
+        confirmed = false;
+      } finally {
+        this.pendingDeletePokemon = null;
+      }
+    } else {
+      confirmed = confirm(`Are you sure you want to delete ${pokemon.name}?`);
     }
+
+    if (!confirmed) return;
 
     try {
       await this.pokemonService.deletePokemon(pokemon.id);

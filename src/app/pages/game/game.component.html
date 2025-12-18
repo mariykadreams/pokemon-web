@@ -32,8 +32,19 @@
 </section>
 
 <section id="game-area" aria-label="Game area">
-    <div id="timer-and-score">
+    <div id="timer-and-score" [class.active]="gameState === 'playing'" class="bg-white shadow-sm rounded-2 px-2 py-1">
         <div id="timer" #timerDiv>Time: {{ timeRemaining }}</div>
+        <ngb-progressbar
+            class="mt-1"
+            [value]="timeRemaining"
+            [max]="GAME_DURATION_SECONDS"
+            [showValue]="false"
+            [type]="timerProgressType"
+            [striped]="true"
+            [animated]="timeRemaining <= 10"
+            height="6px"
+            ariaLabel="Time remaining"
+        ></ngb-progressbar>
         <div id="score" #scoreDiv>Score: {{ score }}</div>
     </div>
 

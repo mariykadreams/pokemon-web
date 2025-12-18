@@ -39,8 +39,8 @@
 
             <div class="col-12 col-lg-auto">
                 <div class="d-flex flex-column gap-2 h-100 justify-content-between">
-                    <button class="btn btn-success fw-bold" [ngClass]="{'btn-warning': showAddUserForm}" (click)="toggleAddUserForm()">
-                        {{ showAddUserForm ? 'Cancel' : 'Add New User' }}
+                    <button class="btn btn-success fw-bold" (click)="toggleAddUserForm()">
+                        Add New User
                     </button>
                     <button class="btn btn-outline-secondary" (click)="loadUsers()" [disabled]="isLoading">
                         {{ isLoading ? 'Loading...' : 'Refresh' }}
@@ -49,7 +49,20 @@
             </div>
         </div>
 
-        <div *ngIf="showAddUserForm">
+        <ng-template #addUserModal let-modal>
+            <div class="modal-header">
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+            </div>
+            <div class="modal-body">
+                <app-register
+                    [showAdminCheckbox]="true"
+                    [adminMode]="true"
+                    (userCreated)="onUserCreated($event)">
+                </app-register>
+            </div>
+        </ng-template>
+
+        <div *ngIf="showAddUserForm && !addUserModal">
             <app-register
                 [showAdminCheckbox]="true"
                 [adminMode]="true"

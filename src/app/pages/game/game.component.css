@@ -11,18 +11,31 @@
 #timer-and-score {
     font-family: 'Pokemon Solid', sans-serif;
     letter-spacing: 3px;
-    width: 120px;
-    display: block;
+    width: 140px;
+    display: none;
     position: absolute;
-    left: calc(99vw - 120px);
+    right: 20px;
+    top: 75px;
     z-index: 2000;
 }
 
-#timer-and-score * {
-    display: none;
-    line-height: 1.3;
+#timer-and-score.active {
+    display: block;
+}
+
+#timer-and-score div {
+    line-height: 1.8;
     color: #f5b700;
     text-shadow: 1px 1px #444;
+    font-size: 14px;
+}
+
+#timer-and-score #timer {
+    font-weight: bold;
+}
+
+#timer-and-score #score {
+    font-weight: bold;
 }
 
 #game-ended {

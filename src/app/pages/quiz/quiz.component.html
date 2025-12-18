@@ -35,6 +35,17 @@
     <section id="quiz-area" aria-label="Quiz area">
         <div id="timer-and-score" [class.active]="isRunning" class="bg-white shadow-sm rounded-2 px-2 py-1">
             <div id="timer" [style.color]="timerColor">Time: {{ timeRemaining }}s</div>
+            <ngb-progressbar
+                class="mt-1"
+                [value]="timeRemaining"
+                [max]="QUIZ_DURATION"
+                [showValue]="false"
+                [type]="timerProgressType"
+                [animated]="timeRemaining <= 10"
+                [striped]="true"
+                height="6px"
+                ariaLabel="Time remaining"
+            ></ngb-progressbar>
             <div id="score">Score: {{ score }}</div>
             <div id="question-counter">Question {{ currentQuestion + 1 }}/{{ QUESTIONS_PER_ROUND }}</div>
         </div>

@@ -16,8 +16,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let user of users; let i = index">
-                                    <td>{{ i + 1 }}</td>
+                                <tr *ngFor="let user of displayedUsers; let i = index">
+                                    <td>{{ rankForIndex(i) }}</td>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.find_score || 0 }}</td>
                                     <td>{{ user.quiz_score || 0 }}</td>
@@ -29,6 +29,32 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div *ngIf="users.length > 0" class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mt-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <label for="pageSize" class="form-label mb-0 small text-body-secondary">Rows</label>
+                            <select
+                                id="pageSize"
+                                class="form-select form-select-sm"
+                                style="width: 120px;"
+                                [(ngModel)]="pageSize"
+                                (ngModelChange)="page = 1"
+                            >
+                                <option [ngValue]="0">All</option>
+                                <option *ngFor="let opt of pageSizeOptions" [ngValue]="opt">{{ opt }}</option>
+                            </select>
+                        </div>
+
+                        <ngb-pagination
+                            [(page)]="page"
+                            [collectionSize]="users.length"
+                            [pageSize]="effectivePageSize"
+                            [maxSize]="5"
+                            [boundaryLinks]="true"
+                            [rotate]="true"
+                            size="sm"
+                        ></ngb-pagination>
                     </div>
                 </div>
             </div>

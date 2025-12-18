@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 interface QuizQuestion {
   pokemon: string;
@@ -13,7 +14,7 @@ interface QuizQuestion {
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbProgressbarModule],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css'
 })
@@ -86,6 +87,10 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   get timerColor(): string {
     return this.timeRemaining <= 10 ? 'red' : '#f5b700';
+  }
+
+  get timerProgressType(): string {
+    return this.timeRemaining <= 10 ? 'danger' : 'warning';
   }
 
   loadQuestion(): void {

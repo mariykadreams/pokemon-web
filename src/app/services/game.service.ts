@@ -286,8 +286,8 @@ export class GameService {
 
   private generateRandomPosition(): Position {
     const top = Math.floor(
-      Math.random() * (window.innerHeight - this.SAFE_MARGIN * 4 - this.IMG_SIZE)
-    ) + this.SAFE_MARGIN * 2.5;
+      Math.random() * (window.innerHeight - this.SAFE_MARGIN * 4.5 - this.IMG_SIZE)
+    ) + this.SAFE_MARGIN * 3;
     const left = Math.floor(
       Math.random() * (window.innerWidth - this.IMG_SIZE - this.SAFE_MARGIN * 0.5)
     ) + this.SAFE_MARGIN * 0.3;

@@ -1,19 +1,23 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { Subscription } from 'rxjs';
+import { NgbOffcanvas, NgbOffcanvasModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgbOffcanvasModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  isMenuOpen = false;
+  readonly COLLAPSE_BREAKPOINT_PX = 680;
+
+  @ViewChild('mobileNav') mobileNavTemplate!: TemplateRef<any>;
+
   isAdmin = false;
   isLoggedIn = false;
   private authSubscription?: Subscription;
@@ -21,7 +25,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-    private router: Router
+    private router: Router,
+    private offcanvasService: NgbOffcanvas
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -66,18 +71,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    if (this.isMenuOpen) {
-      document.body.classList.add('sidebar-open');
+  toggleMenu(): void {
+    if (this.offcanvasService.hasOpenOffcanvas()) {
+      this.offcanvasService.dismiss();
     } else {
-      document.body.classList.remove('sidebar-open');
+      this.offcanvasService.open(this.mobileNavTemplate, {
+        position: 'start',
+        panelClass: 'mobile-nav-offcanvas'
+      });
     }
   }
 
-  closeMenu() {
-    this.isMenuOpen = false;
-    document.body.classList.remove('sidebar-open');
+  closeMenu(): void {
+    this.offcanvasService.dismiss();
   }
 
   async logout(): Promise<void> {
@@ -85,6 +91,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       await this.authService.logout();
       this.isAdmin = false;
       this.isLoggedIn = false;
+      this.closeMenu();
       await this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error logging out:', error);
@@ -92,9 +99,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize')
-  onResize() {
-    // Keep navbar state consistent with the custom collapse breakpoint (680px)
-    if (window.innerWidth >= 680) {
+  onResize(): void {
+    // Close offcanvas when resizing to desktop
+    if (window.innerWidth >= this.COLLAPSE_BREAKPOINT_PX) {
       this.closeMenu();
     }
   }
