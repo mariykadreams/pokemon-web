@@ -33,13 +33,13 @@ npm install
    ```
 
 2. Edit `src/environments/environment.ts` and `src/environments/environment.prod.ts` with your Firebase credentials:
-   - `apiKey`: Your Firebase API key
-   - `authDomain`: Your Firebase auth domain
-   - `projectId`: Your Firebase project ID
-   - `storageBucket`: Your Firebase storage bucket
-   - `messagingSenderId`: Your messaging sender ID
-   - `appId`: Your Firebase app ID
-   - `measurementId`: Your Google Analytics measurement ID (optional)
+   - `apiKey`: Firebase API key
+   - `authDomain`: Firebase auth domain
+   - `projectId`: Firebase project ID
+   - `storageBucket`: Firebase storage bucket
+   - `messagingSenderId`: Firebase messaging sender ID
+   - `appId`: Firebase app ID
+   - `measurementId`: Google Analytics measurement ID (optional)
 
 **Important**: The environment files (`environment.ts` and `environment.prod.ts`) are excluded from version control to protect your API keys. Never commit these files to GitHub.
 
